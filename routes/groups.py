@@ -1,6 +1,7 @@
 from flask import Blueprint,render_template,url_for,redirect,request
 from models.groups import Groups
 from extinsion import db
+from models.student_group import StuduentsrGoups
 
 groups=Blueprint("groups",__name__)
 
@@ -20,4 +21,10 @@ def add_group():
         db.session.commit()
         return redirect(url_for("groups.group"))
     return render_template("add-group.html"  ,name="add group")
+
+@groups.route("/group/<int:group_id>")
+def group_students(group_id):
+    group = Groups.query.get_or_404(group_id)
+    links = StuduentsrGoups.query.filter_by(group_id=group_id).all()
+    return render_template("group-students.html", group=group, links=links, name="group students")
 

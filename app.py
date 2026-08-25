@@ -4,12 +4,14 @@ from extinsion import db
 from routes.student import students
 from routes.groups import groups
 from models.student import Student
+from routes.attendance import attendance
 from config import Config
 import os
 
 app=Flask(__name__)
 app.register_blueprint(students)
 app.register_blueprint(groups)
+app.register_blueprint(attendance)
 
 #app configrtion==//
 app.config["SECRET_KEY"] = "YOUR SECRET KEY"

@@ -1,0 +1,35 @@
+{% extends "base.html"%}
+{%block body%}
+
+<section class="recorded-page">
+    <div class="recorded-header">
+       <h1>Attendance - {{group.name}}</h1>
+    </div>
+</section>
+
+<section>
+    <div class="admin-container">
+        <div class="card-admin">
+            <form method="post">
+                {% for link in links %}
+                <div class="input-box">
+                    <label>
+                        <input type="checkbox" name="present" value="{{link.student_id}}">
+                        {{link.student.name}}
+                    </label>
+                </div>
+                {% else %}
+                <p>no students in this group</p>
+                {% endfor %}
+
+                <div class="submit-btn">
+                    <button type="submit">save attendance</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{%endblock%}
+
+

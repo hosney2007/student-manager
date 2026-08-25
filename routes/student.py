@@ -1,6 +1,8 @@
 from flask import Flask,Blueprint,render_template,url_for,redirect,request
 from models.student import Student
 from extinsion import db
+from models.groups import Groups
+from models.student_group import StuduentsrGoups
 
 students=Blueprint("students",__name__)
 
@@ -31,3 +33,29 @@ def delete_student( student_id ):
     db.session.delete(student)
     db.session.commit()
     return redirect(url_for("students.student"))
+
+
+@students.route("/student/<int:student_id>/add-group", methods=["GET", "POST"])
+def add_student_to_group(student_id):
+    student = Student.query.get_or_404(student_id)
+    groups = Groups.query.all()
+
+    if request.method == "POST":
+        group_id = request.form.get("group_id")
+
+        # نتأكد إن الطالب ده مش مضاف في المجموعة دي قبل كده
+        existing = StuduentsrGoups.query.filter_by(
+            student_id=student_id,
+            group_id=group_id
+        ).first()
+
+        if existing:
+            return redirect(url_for("students.student"))
+
+        new_link = StuduentsrGoups(student_id=student_id, group_id=group_id)
+        db.session.add(new_link)
+        db.session.commit()
+
+        return redirect(url_for("students.student"))
+
+    return render_template("add-student-group.html", student=student, groups=groups, name="add student to group")

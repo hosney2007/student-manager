@@ -1,0 +1,36 @@
+{% extends "base.html"%}
+{%block body%}
+
+<section class="recorded-page">
+    <div class="recorded-header">
+       <h1>{{group.name}} - Attendance History</h1>
+    </div>
+</section>
+
+<section>
+    <div class="admin-container">
+        {% for session_date, records in sessions.items() %}
+        <div class="card-admin">
+            <div class="card-header">
+                <h2 class="card-title">{{session_date}}</h2>
+            </div>
+            <div>
+                {% for record in records %}
+                <p>
+                    {{record.student.name}} —
+                    {% if record.is_attend %}
+                        present
+                    {% else %}
+                        absent
+                    {% endif %}
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <p>no attendance recorded yet</p>
+        {% endfor %}
+    </div>
+</section>
+
+{%endblock%}

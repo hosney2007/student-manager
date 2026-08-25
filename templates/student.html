@@ -21,6 +21,7 @@
                 </div>
                 <div>
                     <a href="{{ url_for('students.delete_student', student_id=student.id) }}">delete student</a>
+                    <a href="{{ url_for('students.add_student_to_group', student_id=student.id) }}">add to group</a>
                 </div>
             </div>
           </div>  

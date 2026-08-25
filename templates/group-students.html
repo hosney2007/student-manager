@@ -1,0 +1,28 @@
+ {% extends "base.html"%}
+{%block body%}
+
+<section class="recorded-page">
+    <div class="recorded-header">
+       <h1>{{group.name}} - Students</h1>
+    </div>
+</section>
+
+<section>
+    <div>
+        <div>
+          {% for link in links %}
+          <div>
+            <p>{{link.student.name}}</p>
+            <p>{{link.student.student_num}}</p>
+            <p>{{link.student.parent_num}}</p>
+          </div>
+          {% else %}
+          <p>no students in this group</p>
+          {% endfor %}
+            <a href="{{url_for('attendance.take_attendance', group_id=group.id)}}">take attendance</a>
+            <a href="{{url_for('attendance.attendance_history', group_id=group.id)}}">attendance history</a>
+        </div>
+    </div>
+</section>
+
+{%endblock%}
