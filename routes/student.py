@@ -11,7 +11,7 @@ def student():
 
 @students.route("/student/add", methods=["GET", "POST"])
 def add_student():
-    if request.method == "post":
+    if request.method == "POST":
         name = request.form.get("name")
         student_num = request.form.get("student_num")
         parent_num = request.form.get("parent_num")
@@ -25,3 +25,9 @@ def add_student():
         return redirect(url_for("students.student"))
     return render_template("add-student.html"  ,name="add student")
 
+@students.route("/student/delete/<int:student_id>", methods=["GET", "POST"])
+def delete_student( student_id ):
+    student = Student.query.get_or_404(student_id)
+    db.session.delete(student)
+    db.session.commit()
+    return redirect(url_for("students.student"))

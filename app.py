@@ -2,12 +2,14 @@ from flask import Flask , render_template, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from extinsion import db
 from routes.student import students
+from routes.groups import groups
 from models.student import Student
 from config import Config
 import os
 
 app=Flask(__name__)
 app.register_blueprint(students)
+app.register_blueprint(groups)
 
 #app configrtion==//
 app.config["SECRET_KEY"] = "YOUR SECRET KEY"

@@ -20,13 +20,13 @@
                     <p> {{student.parent_num}}</p>
                 </div>
                 <div>
-                    <a href="{{url_for('students.add_student')}}">add student</a>
+                    <a href="{{ url_for('students.delete_student', student_id=student.id) }}">delete student</a>
                 </div>
             </div>
           </div>  
           {%endfor%} 
-                    <a href="{{url_for('students.add_student')}}">add student</a>
         </div>
+                    <a href="{{url_for('students.add_student')}}">add student</a>
     </div>
 </section>   
 {%endblock%}

@@ -5,3 +5,4 @@ class Attendance():
     id = db.Column(db.Integer, primary_key=True) 
     student_id = db.Column(db.Integer, db.ForeignKey("student.id"), nullable=False )
     group_id = db.Column(db.Integer, db.ForeignKey("group.id"), nullable=False )
+    is_attend =db.Column(db.Boolean, defualt=False )
