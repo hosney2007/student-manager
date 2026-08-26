@@ -1,28 +1,44 @@
- {% extends "base.html"%}
+{% extends "base.html"%}
 {%block body%}
 
 <section class="recorded-page">
     <div class="recorded-header">
-       <h1>{{group.name}} - Students</h1>
+       <h1>{{group.name}}</h1>
+       <p class="subtitle">{{links|length}} student(s) in this group</p>
     </div>
 </section>
 
-<section>
-    <div>
-        <div>
-          {% for link in links %}
-          <div>
-            <p>{{link.student.name}}</p>
-            <p>{{link.student.student_num}}</p>
-            <p>{{link.student.parent_num}}</p>
-          </div>
-          {% else %}
-          <p>no students in this group</p>
-          {% endfor %}
-            <a href="{{url_for('attendance.take_attendance', group_id=group.id)}}">take attendance</a>
-            <a href="{{url_for('attendance.attendance_history', group_id=group.id)}}">attendance history</a>
-        </div>
-    </div>
-</section>
+<div class="actions-row">
+    <a class="btn btn-primary" href="{{url_for('attendance.take_attendance', group_id=group.id)}}">take attendance</a>
+    <a class="btn" href="{{url_for('attendance.attendance_history', group_id=group.id)}}">attendance history</a>
+</div>
+
+<div class="table-wrap">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Student Number</th>
+                <th>Parent Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for link in links %}
+            <tr>
+                <td class="primary-cell">{{link.student.name}}</td>
+                <td class="muted-cell">{{link.student.student_num}}</td>
+                <td class="muted-cell">{{link.student.parent_num}}</td>
+                <td class="actions">
+                 <a class="btn btn-sm btn-danger" href="{{url_for('students.remove_student_from_group', student_id=link.student_id, group_id=group.id)}}">remove</a>  
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {%if not links%}
+    <div class="empty-state">no students in this group yet</div>
+    {%endif%}
+</div>
 
 {%endblock%}

@@ -2,32 +2,44 @@
 
 {%block body%}
 
-
 <section class="recorded-page">
     <div class="recorded-header">
-       <h1>STUDENTS</h1>
+       <h1>Students</h1>
+       <p class="subtitle">{{student|length}} student(s) registered</p>
     </div>
 </section>
-<section >
-    <div>
-        <div>
-          {%for student in student%}
-          <div>
-            <div>
-                <div>
-                    <p>{{student.name}}</p>
-                    <p> {{student.student_num}}</p>
-                    <p> {{student.parent_num}}</p>
-                </div>
-                <div>
-                    <a href="{{ url_for('students.delete_student', student_id=student.id) }}">delete student</a>
-                    <a href="{{ url_for('students.add_student_to_group', student_id=student.id) }}">add to group</a>
-                </div>
-            </div>
-          </div>  
-          {%endfor%} 
-        </div>
-                    <a href="{{url_for('students.add_student')}}">add student</a>
-    </div>
-</section>   
+
+<div class="actions-row">
+    <a class="btn btn-primary" href="{{url_for('students.add_student')}}">+ add student</a>
+</div>
+
+<div class="table-wrap">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Student Number</th>
+                <th>Parent Number</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for student in student%}
+            <tr>
+                <td class="primary-cell">{{student.name}}</td>
+                <td class="muted-cell">{{student.student_num}}</td>
+                <td class="muted-cell">{{student.parent_num}}</td>
+                <td class="actions">
+                    <a class="btn btn-sm" href="{{ url_for('students.add_student_to_group', student_id=student.id) }}">add to group</a>
+                    <a class="btn btn-sm btn-danger" href="{{ url_for('students.delete_student', student_id=student.id) }}">delete</a>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    {%if not student%}
+    <div class="empty-state">no students yet — add your first one above</div>
+    {%endif%}
+</div>
+
 {%endblock%}

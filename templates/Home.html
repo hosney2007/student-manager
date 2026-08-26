@@ -1,7 +1,23 @@
 {% extends 'base.html'%}
 
 {%block body%}
-<h1>hello</h1>
-<a href="{{url_for('students.student')}}">Students</a>
-<a href="{{url_for('groups.group')}}">groups</a>
+
+<section class="recorded-page">
+    <div class="recorded-header">
+       <h1>Dashboard</h1>
+       <p class="subtitle">manage your students, groups and attendance</p>
+    </div>
+</section>
+
+<div class="dashboard-grid">
+    <a class="dashboard-card" href="{{url_for('students.student')}}">
+        <h3>Students</h3>
+        <p>view, add and manage students</p>
+    </a>
+    <a class="dashboard-card" href="{{url_for('groups.group')}}">
+        <h3>Groups</h3>
+        <p>view groups and take attendance</p>
+    </a>
+</div>
+
 {%endblock%}

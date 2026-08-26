@@ -1,8 +1,9 @@
-from flask import Flask,Blueprint,render_template,url_for,redirect,request
+from flask import Flask,Blueprint,render_template,url_for,redirect,request,flash
 from models.student import Student
 from extinsion import db
 from models.groups import Groups
 from models.student_group import StuduentsrGoups
+from models.attendance import Attendance
 
 students=Blueprint("students",__name__)
 
@@ -24,14 +25,24 @@ def add_student():
         )
         db.session.add(studet)
         db.session.commit()
+        flash("student registred", "success")
         return redirect(url_for("students.student"))
     return render_template("add-student.html"  ,name="add student")
 
 @students.route("/student/delete/<int:student_id>", methods=["GET", "POST"])
-def delete_student( student_id ):
+def delete_student(student_id):
     student = Student.query.get_or_404(student_id)
+
+    in_group = StuduentsrGoups.query.filter_by(student_id=student_id).first()
+    has_attendance = Attendance.query.filter_by(student_id=student_id).first()
+
+    if in_group or has_attendance:
+        flash("can't delete this student — remove them from their group(s) first", "error")
+        return redirect(url_for("students.student"))
+
     db.session.delete(student)
     db.session.commit()
+    flash("student deleted", "success")
     return redirect(url_for("students.student"))
 
 
@@ -50,12 +61,23 @@ def add_student_to_group(student_id):
         ).first()
 
         if existing:
+            flash("student already in this group", "error")
             return redirect(url_for("students.student"))
 
         new_link = StuduentsrGoups(student_id=student_id, group_id=group_id)
         db.session.add(new_link)
         db.session.commit()
-
+        group_name = new_link.group.name
+        flash(f"student added to {group_name} ", "success")
         return redirect(url_for("students.student"))
 
     return render_template("add-student-group.html", student=student, groups=groups, name="add student to group")
+
+@students.route("/student/<int:student_id>/remove-group/<int:group_id>", methods=["GET", "POST"])
+def remove_student_from_group(student_id, group_id):
+    link = StuduentsrGoups.query.filter_by(student_id=student_id, group_id=group_id).first_or_404()
+    db.session.delete(link)
+    db.session.commit()
+    flash("student removed from group", "success")
+    return redirect(url_for("groups.group_students", group_id=group_id))
+

@@ -3,34 +3,32 @@
 
 <section class="recorded-page">
     <div class="recorded-header">
-       <h1>{{group.name}} - Attendance History</h1>
+       <h1>{{group.name}} — History</h1>
+       <p class="subtitle">attendance sessions, most recent first</p>
     </div>
 </section>
 
-<section>
-    <div class="admin-container">
-        {% for session_date, records in sessions.items() %}
-        <div class="card-admin">
-            <div class="card-header">
-                <h2 class="card-title">{{session_date}}</h2>
-            </div>
-            <div>
-                {% for record in records %}
-                <p>
-                    {{record.student.name}} —
-                    {% if record.is_attend %}
-                        present
-                    {% else %}
-                        absent
-                    {% endif %}
-                </p>
-                {% endfor %}
-            </div>
+<div class="admin-container" style="max-width: 640px;">
+    {% for session_date, records in sessions.items() %}
+    <div class="session-card">
+        <div class="session-date-row">
+            <span class="session-date">{{session_date}}</span>
+            <a class="btn btn-sm btn-danger" href="{{url_for('attendance.delete_attendance_session', group_id=group.id, session_date=session_date.strftime('%Y-%m-%d'))}}">delete</a>    
         </div>
-        {% else %}
-        <p>no attendance recorded yet</p>
+        {% for record in records %}
+        <div class="session-row">
+            <span>{{record.student.name}}</span>
+            {% if record.is_attend %}
+            <span class="badge badge-present">present</span>
+            {% else %}
+            <span class="badge badge-absent">absent</span>
+            {% endif %}
+        </div>
         {% endfor %}
     </div>
-</section>
+    {% else %}
+    <div class="empty-state">no attendance recorded yet</div>
+    {% endfor %}
+</div>
 
 {%endblock%}
