@@ -11,6 +11,13 @@
 
 <div class="actions-row">
     <a class="btn btn-primary" href="{{url_for('groups.add_group')}}">+ add group</a>
+    <form method="get" class="search-form">
+        <input type="text" name="q" placeholder="search groups by name" value="{{ q|default('') }}">
+        <button class="btn" type="submit">search</button>
+        {% if q %}
+        <a class="btn btn-sm" href="{{ url_for('groups.group') }}">clear</a>
+        {% endif %}
+    </form>
 </div>
 
 <div class="table-wrap">
@@ -34,7 +41,9 @@
         </tbody>
     </table>
     {%if not group%}
-    <div class="empty-state">no groups yet — add your first one above</div>
+    <div class="empty-state">
+        {% if q %}no groups match "{{ q }}"{% else %}no groups yet — add your first one above{% endif %}
+    </div>
     {%endif%}
 </div>
 

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="admin-container">
+    <div class="card-admin">
+        <div class="card-header">
+            <h2 class="card-title">Login</h2>
+        </div>
+        <div class="booking-form">
+            <form method="post">
+               <div class="input-box">
+                   <label class="form-label">username</label>
+                   <input
+                    type="text"
+                    name="username"
+                    placeholder="username"
+                    required
+                    autofocus
+                    >
+               </div>
+               <div class="input-box">
+                   <label class="form-label">password</label>
+                   <input
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    required
+                    >
+               </div>
+
+               <div class="submit-btn">
+                 <button type="submit">
+                 login
+                </button>
+               </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

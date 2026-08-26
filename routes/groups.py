@@ -7,8 +7,14 @@ groups=Blueprint("groups",__name__)
 
 @groups.route("/group")
 def group():
-    group = Groups.query.all()
-    return render_template("group.html", group=group, name="Groups")
+    q = request.args.get("q", "").strip()
+    query = Groups.query
+
+    if q:
+        query = query.filter(Groups.name.ilike(f"%{q}%"))
+
+    group = query.all()
+    return render_template("group.html", group=group, name="Groups", q=q)
 
 @groups.route("/group/add", methods=["GET", "POST"])
 def add_group():

@@ -11,6 +11,13 @@
 
 <div class="actions-row">
     <a class="btn btn-primary" href="{{url_for('students.add_student')}}">+ add student</a>
+    <form method="get" class="search-form">
+        <input type="text" name="q" placeholder="search by name, student # or parent #" value="{{ q|default('') }}">
+        <button class="btn" type="submit">search</button>
+        {% if q %}
+        <a class="btn btn-sm" href="{{ url_for('students.student') }}">clear</a>
+        {% endif %}
+    </form>
 </div>
 
 <div class="table-wrap">
@@ -38,7 +45,9 @@
         </tbody>
     </table>
     {%if not student%}
-    <div class="empty-state">no students yet — add your first one above</div>
+    <div class="empty-state">
+        {% if q %}no students match "{{ q }}"{% else %}no students yet — add your first one above{% endif %}
+    </div>
     {%endif%}
 </div>
 

@@ -186,6 +186,32 @@ select:focus-visible {
     gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 24px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-form input[type="text"] {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background-color: transparent;
+    color: inherit;
+    font-family: var(--font-body);
+    font-size: 14px;
+    min-width: 220px;
+}
+
+.topbar-user {
+    font-size: 13px;
+    color: var(--color-accent-soft);
+    opacity: .8;
 }
 
 .btn {

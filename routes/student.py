@@ -4,13 +4,28 @@ from extinsion import db
 from models.groups import Groups
 from models.student_group import StuduentsrGoups
 from models.attendance import Attendance
+from flask_login import login_required
 
 students=Blueprint("students",__name__)
 
 @students.route("/student")
+@login_required
 def student():
-    student = Student.query.all()
-    return render_template("student.html", student=student, name="students")
+    q = request.args.get("q", "").strip()
+    query = Student.query
+
+    if q:
+        like = f"%{q}%"
+        query = query.filter(
+            db.or_(
+                Student.name.ilike(like),
+                Student.student_num.ilike(like),
+                Student.parent_num.ilike(like),
+            )
+        )
+
+    student = query.all()
+    return render_template("student.html", student=student, name="students", q=q)
 
 @students.route("/student/add", methods=["GET", "POST"])
 def add_student():
